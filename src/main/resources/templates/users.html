@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>table th, table td {
+        padding: 5px;
+    }
+
+    .btn {
+        display: inline-block; /* Строчно-блочный элемент */
+        background: #e75480; /* Серый цвет фона */
+        color: #fff; /* Белый цвет текста */
+        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
+        text-decoration: none; /* Убираем подчёркивание */
+        border-radius: 3px; /* Скругляем уголки */
+    }
+    </style>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>name</th>
+        <th>lastname</th>
+        <th>department</th>
+        <th>operations</th>
+    </tr>
+
+    <tr th:each="user : ${users}">
+
+        <td th:utext="${user.getName()}">name</td>
+        <td th:utext="${user.getLastName()}">lastname</td>
+        <td th:utext="${user.getDepartment()}">department</td>
+        <td>
+            <a th:href="@{/admin/users/{id}(id=${user.getId()})}" th:utext="open"></a>
+            <a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}">edit</a>
+            <form th:method="DELETE" th:action="@{/admin/users/{id}/delete(id=${user.getId()})}">
+                <input type="submit" value="Delete" class="btn"/>
+            </form>
+
+        </td>
+
+    </tr>
+</table>
+<input type="button" class="btn" value="Add"
+       onclick="window.location.href = '/admin/users/addNew'"/>
+<input type="button" class="btn" value="Go to admin page!"
+       onclick="window.location.href = '/admin'"/>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
@@ -18,14 +18,26 @@
     </style>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>lastname</th>
+        <th>department</th>
+        <th>age</th>
+    </tr>
 
-<input type="button" class="btn" value="registration"
-       onclick="window.location.href = '/registration'"/>
-
-<input type="button" class="btn" value="login"
-       onclick="window.location.href = '/login'"/>
-
+    <tr>
+        <td th:utext="${user.getId()}">VALUE</td>
+        <td th:utext="${user.getName()}">name</td>
+        <td th:utext="${user.getLastName()}">lastname</td>
+        <td th:utext="${user.getDepartment()}">department</td>
+        <td th:utext="${user.getAge()}">VALUE</td>
+    </tr>
+</table>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" class="btn" value="Sign Out"/>
+</form>
 
 </body>
 </html>

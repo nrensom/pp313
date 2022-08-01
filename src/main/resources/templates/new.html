@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+    <style>table th, table td {
+        padding: 5px;
+    }
+
+    .btn {
+        display: inline-block; /* Строчно-блочный элемент */
+        background: #e75480; /* Серый цвет фона */
+        color: #fff; /* Белый цвет текста */
+        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
+        text-decoration: none; /* Убираем подчёркивание */
+        border-radius: 3px; /* Скругляем уголки */
+    }
+    </style>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
+    <label for="username">Enter Username: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    </br>
+    <label for="lastName">Enter Password: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    </br>
+    <label for="name">Enter Name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    </br>
+    <label for="lastName">Enter Lastname: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    </br>
+    <label for="age">Enter Age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
+    </br>
+    <label for="department">Enter Department: </label>
+    <input type="text" th:field="*{department}" id="department"/>
+    </br>
+    <input type="submit" value="Create!" class="btn"/>
+</form>
+</body>
+</html>
