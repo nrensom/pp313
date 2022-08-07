@@ -21,6 +21,7 @@
 <table border="1">
     <tr>
         <th>id</th>
+        <th>username</th>
         <th>name</th>
         <th>lastname</th>
         <th>department</th>
@@ -29,6 +30,7 @@
 
     <tr>
         <td th:utext="${user.getId()}">VALUE</td>
+        <td th:utext="${user.getUsername()}">username</td>
         <td th:utext="${user.getName()}">name</td>
         <td th:utext="${user.getLastName()}">lastname</td>
         <td th:utext="${user.getDepartment()}">department</td>
