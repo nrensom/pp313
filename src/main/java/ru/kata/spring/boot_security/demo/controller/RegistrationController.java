@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepo;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.Collection;
 import java.util.Map;
 
 @Controller

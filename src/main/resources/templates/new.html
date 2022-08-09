@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>New User</title>
-    <style>table th, table td {
-        padding: 5px;
-    }
-
-    .btn {
-        display: inline-block; /* Строчно-блочный элемент */
-        background: #e75480; /* Серый цвет фона */
-        color: #fff; /* Белый цвет текста */
-        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
-        text-decoration: none; /* Убираем подчёркивание */
-        border-radius: 3px; /* Скругляем уголки */
-    }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
@@ -36,6 +22,14 @@
     </br>
     <label for="department">Enter Department: </label>
     <input type="text" th:field="*{department}" id="department"/>
+    </br>
+    <label>
+        <select size="3" name="role" id="roles" multiple="multiple">
+            <option disabled>Choose Role</option>
+            <option value="1">ADMIN</option>
+            <option value="2">USER</option>
+        </select>
+    </label>
     </br>
     <input type="submit" value="Create!" class="btn"/>
 </form>

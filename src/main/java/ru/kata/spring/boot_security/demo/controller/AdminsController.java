@@ -3,8 +3,12 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 
 @Controller
@@ -18,7 +22,8 @@ public class AdminsController {
 
 
     @GetMapping()
-    public String adminPage() {
+    public String adminPage(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
         return "foradmin";
     }
 
@@ -41,7 +46,9 @@ public class AdminsController {
     }
 
     @PostMapping("/users")
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") User user, @RequestParam(value = "role") ArrayList<Long> roles) {
+        Set<Role> roleArrayList = userService.getRoles(roles);
+        user.setRoles(roleArrayList);
         userService.save(user);
         return "redirect:/admin/users";
     }
@@ -53,7 +60,9 @@ public class AdminsController {
     }
 
     @PatchMapping("/users/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+    public String update(@ModelAttribute("user") User user, @RequestParam(value = "role") ArrayList<Long> roles, @PathVariable("id") long id) {
+        Set<Role> roleArrayList = userService.getRoles(roles);
+        user.setRoles(roleArrayList);
         userService.update(user);
         return "redirect:/admin/users";
     }

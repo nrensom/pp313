@@ -3,19 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-    <style>table th, table td {
-        padding: 5px;
-    }
-
-    .btn {
-        display: inline-block; /* Строчно-блочный элемент */
-        background: #e75480; /* Серый цвет фона */
-        color: #fff; /* Белый цвет текста */
-        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
-        text-decoration: none; /* Убираем подчёркивание */
-        border-radius: 3px; /* Скругляем уголки */
-    }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <table border="1">
@@ -42,9 +31,10 @@
 
     </tr>
 </table>
-<input type="button" class="btn" value="Add"
+<input type="button" value="Add"
        onclick="window.location.href = '/admin/users/addNew'"/>
-<input type="button" class="btn" value="Go to admin page!"
-       onclick="window.location.href = '/admin'"/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>

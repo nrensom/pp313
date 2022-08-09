@@ -1,21 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>User</title>
-    <style>table th, table td {
-        padding: 5px;
-    }
-
-    .btn {
-        display: inline-block; /* Строчно-блочный элемент */
-        background: #e75480; /* Серый цвет фона */
-        color: #fff; /* Белый цвет текста */
-        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
-        text-decoration: none; /* Убираем подчёркивание */
-        border-radius: 3px; /* Скругляем уголки */
-    }
-    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <table border="1">
@@ -38,7 +26,7 @@
     </tr>
 </table>
 <form th:action="@{/logout}" method="post">
-    <input type="submit" class="btn" value="Sign Out"/>
+    <input type="submit"  value="Sign Out"/>
 </form>
 
 </body>

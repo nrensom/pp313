@@ -20,11 +20,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     final
     UserService userService;
-
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService) {
@@ -53,9 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider getAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setPasswordEncoder(getPasswordEncoder());
         authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
+
 
 }

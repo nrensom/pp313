@@ -15,9 +15,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepo;
 
 
 import javax.persistence.EntityManager;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,11 +26,6 @@ public class UserServiceImpl implements UserService {
 
     final
     EntityManager em;
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -53,7 +46,6 @@ public class UserServiceImpl implements UserService {
         if (userFromDB != null) {
             return false;
         }
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return true;
@@ -83,11 +75,24 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
 
     public Long getIdByUsername(String username) {
         Long id = userRepo.findByUsername(username).getId();
         return id;
+    }
+
+    @Override
+    public Set<Role> getRoles(List<Long> roles) {
+        Set<Role> result = new HashSet<>();
+        for (Long role : roles) {
+            if (role == 1) {
+                result.add(new Role(1, "ROLE_ADMIN"));
+            } else if (role == 2) {
+                result.add(new Role(2, "ROLE_USER"));
+            }
+        }
+        return result;
     }
 }

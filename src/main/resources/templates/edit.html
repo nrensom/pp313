@@ -16,15 +16,14 @@
         border-radius: 3px; /* Скругляем уголки */
     }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
 <form th:method="PATCH" th:action="@{/admin/users/{id}(id = ${user.getId()})}" th:object="${user}">
     <label for="username">Enter Username: </label>
     <input type="text" th:field="*{username}" id="username"/>
-    </br>
-    <label for="lastName">Enter Password: </label>
-    <input type="text" th:field="*{password}" id="password"/>
     </br>
     <label for="name">Enter Name: </label>
     <input type="text" th:field="*{name}" id="name"/>
@@ -38,6 +37,15 @@
     <label for="department">Enter Department: </label>
     <input type="text" th:field="*{department}" id="department"/>
     </br>
+    <tr>
+        <label>
+            <select size="3" name="role" id="roles" multiple="multiple">
+                <option disabled>Choose Role</option>
+                <option value="1">ADMIN</option>
+                <option value="2">USER</option>
+            </select>
+        </label>
+    </tr>
     <input type="submit" value="Update!" class="btn"/>
 </form>
 

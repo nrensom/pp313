@@ -1,29 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>table th, table td {
-        padding: 5px;
-    }
-
-    .btn {
-        display: inline-block; /* Строчно-блочный элемент */
-        background: #e75480; /* Серый цвет фона */
-        color: #fff; /* Белый цвет текста */
-        padding: 0.25rem 0.5rem; /* Поля вокруг текста */
-        text-decoration: none; /* Убираем подчёркивание */
-        border-radius: 3px; /* Скругляем уголки */
-    }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 
-<form th:action="@{/logout}" method="post">
-    <input type="submit" class="btn" value="Sign Out"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav>
+                <ol class="breadcrumb">
 
-    <input type="button" class="btn" value="Go to users!"
-           onclick="window.location.href = '/admin/users'"/>
-</form>
+                </ol>
+            </nav>
+            <div class="row">
+                <div class="col-md-2">
+
+                    <button type="button" class="btn btn-success btn-block">
+                        Button
+                    </button>
+                    <button type="button" class="btn btn-success btn-block">
+                        Button
+                    </button>
+                </div>
+                <div class="col-md-10">
+                    <div class="page-header">
+                        <h1>
+                            LayoutIt! <small>Interface Builder for Bootstrap</small>
+                        </h1>
+                    </div>
+                    <div class="tabbable" id="tabs-342454">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#tab1" data-toggle="tab">Section 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab2" data-toggle="tab">Section 2</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="panel-203029">
+                                <p>
+                                    I'm in Section 1.
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <p>
+                                    Howdy, I'm in Section 2.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-hover table-striped">
+                                <tr>
+                                    <th>name</th>
+                                    <th>lastname</th>
+                                    <th>department</th>
+                                    <th>operations</th>
+                                </tr>
+
+                                <tr th:each="user : ${users}">
+
+                                    <td th:utext="${user.getName()}">name</td>
+                                    <td th:utext="${user.getLastName()}">lastname</td>
+                                    <td th:utext="${user.getDepartment()}">department</td>
+                                    <td>
+                                        <a th:href="@{/admin/users/{id}(id=${user.getId()})}" th:utext="open"></a>
+                                        <a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}">edit</a>
+                                        <form th:method="DELETE" th:action="@{/admin/users/{id}/delete(id=${user.getId()})}">
+                                            <input type="submit" value="Delete" class="btn"/>
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>
+                h3. Lorem ipsum dolor sit amet.
+            </h3>
+            <h3>
+                h3. Lorem ipsum dolor sit amet.
+            </h3>
+        </div>
+    </div>
+</div>
 </body>
 </html>
