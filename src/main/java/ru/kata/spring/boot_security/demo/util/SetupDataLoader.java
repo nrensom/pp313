@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -48,18 +48,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         roleRepo.save(userRole);
 
         User admin = new User();
-        admin.setUsername("admin");
+        admin.setEmail("admin@mail.com");
         admin.setName("admin");
         admin.setPassword("admin");
         admin.setRoles(adminRoles);
         userService.save(admin);
 
         User user = new User();
-        user.setUsername("user");
+        user.setEmail("user@mail.com");
         user.setName("Peppa");
         user.setLastName("Pig");
         user.setAge((byte)4);
-        user.setDepartment("what");
         user.setPassword("user");
         user.setRoles(userRoles);
         userService.save(user);

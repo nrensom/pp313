@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepo extends JpaRepository<User, Long> {
-    User findByUsername(String username);
 
     @Override
     Optional<User> findById(Long id);
@@ -18,5 +17,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Override
     void deleteById(Long aLong);
 
+    User findByEmail(String Email);
 
 }

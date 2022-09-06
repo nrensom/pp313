@@ -1,10 +1,8 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,22 +17,17 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-    final
-    UserRepo userRepo;
-    final
-    RoleRepo roleRepo;
-
-    final
-    EntityManager em;
+    private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
+    private final EntityManager em;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, EntityManager em) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, EntityManager em, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.em = em;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsers() {
@@ -42,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean save(User user) {
-        User userFromDB = userRepo.findByUsername(user.getUsername());
+        User userFromDB = userRepo.findByEmail(user.getEmail());
         if (userFromDB != null) {
             return false;
         }
@@ -64,22 +57,31 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
     @Transactional
-    public void update(User user) {
-        em.merge(user);
+    public void update(long id, User user) {
+        User temp = em.find(User.class, id);
+        temp.setName(user.getName());
+        temp.setLastName(user.getLastName());
+        temp.setAge(user.getAge());
+        temp.setEmail(user.getEmail());
+        temp.setRoles(user.getRoles());
+        temp.setPassword(user.getPassword());
+        em.merge(temp);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepo.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }
 
-    public Long getIdByUsername(String username) {
-        Long id = userRepo.findByUsername(username).getId();
+
+    public Long getIdByUsername(String email) {
+        Long id = userRepo.findByEmail(email).getId();
         return id;
     }
 
@@ -95,4 +97,19 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+    }
+
 }

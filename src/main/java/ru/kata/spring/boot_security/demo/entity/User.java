@@ -1,11 +1,16 @@
 package ru.kata.spring.boot_security.demo.entity;
 
+import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,18 +25,17 @@ public class User implements UserDetails {
     private String name;
     @Column(name = "surname")
     private String lastName;
-    @Column(name = "department")
-    private String department;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
     @Column(name = "password")
     private String password;
 
     @Column(name = "age")
     private byte age;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -43,7 +47,6 @@ public class User implements UserDetails {
         this.roles.add(role);
     }
 
-
     public String getRoleNames() {
         return roles.stream().map(r -> r.getName()).collect(Collectors.joining());
     }
@@ -52,16 +55,13 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-
     public User() {
     }
 
-    public User(String username, String name, String password, String lastName, String department, byte age) {
-        this.username = username;
+    public User(String name, String password, String lastName, byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.department = department;
         this.password = password;
     }
 
@@ -73,11 +73,31 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -86,8 +106,30 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public byte getAge() {
+        return age;
+    }
+
+    public void setAge(byte age) {
+        this.age = age;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public boolean isNotAdmin() {
+        return !getRoleNames().contains("ADMIN");
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    }
+
+    @Override
     public String getUsername() {
-        return username;
+        return getEmail();
     }
 
     @Override
@@ -110,41 +152,16 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
-
-    public String getName() {
-        return name;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName, email, password, age, roles);
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public byte getAge() {
-        return age;
-    }
-
-    public void setAge(byte age) {
-        this.age = age;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
 }

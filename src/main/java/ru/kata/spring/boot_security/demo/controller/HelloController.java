@@ -7,13 +7,6 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
 public class HelloController {
-    final
-    UserService userService;
-
-    public HelloController(UserService userService) {
-        this.userService = userService;
-    }
-
     @GetMapping(value = "/")
     public String printWelcome(ModelMap model) {
         return "index";
